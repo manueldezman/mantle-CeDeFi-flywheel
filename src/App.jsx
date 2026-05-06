@@ -99,22 +99,22 @@ const EDGES = [
   { from: 4, to: 0, label: "collateral demand" },
 ];
 
-const R = isMobile ? 110 : 210; // pentagon radius
-const CX = isMobile ? 187.5 : 480; // center x
-const CY = isMobile ? 300 : 360; // center y
-
 function toRad(deg) { return (deg * Math.PI) / 180; }
-function nodePos(angle) {
-  return {
-    x: CX + R * Math.cos(toRad(angle)),
-    y: CY + R * Math.sin(toRad(angle)),
-  };
-}
 
 // Curved arrow path between two nodes
-function arcPath(from, to, curvature = 0.35) {
-  const p1 = nodePos(NODES[from].angle);
-  const p2 = nodePos(NODES[to].angle);
+function arcPath(from, to, curvature = 0.35, isMobile = false) {
+  const R = isMobile ? 110 : 210;
+  const CX = isMobile ? 187.5 : 480;
+  const CY = isMobile ? 300 : 360;
+
+  const p1 = {
+    x: CX + R * Math.cos(toRad(NODES[from].angle)),
+    y: CY + R * Math.sin(toRad(NODES[from].angle)),
+  };
+  const p2 = {
+    x: CX + R * Math.cos(toRad(NODES[to].angle)),
+    y: CY + R * Math.sin(toRad(NODES[to].angle)),
+  };
   const mx = (p1.x + p2.x) / 2;
   const my = (p1.y + p2.y) / 2;
   const dx = p2.x - p1.x;
@@ -125,9 +125,19 @@ function arcPath(from, to, curvature = 0.35) {
 }
 
 // Midpoint of quadratic bezier
-function bezierMid(from, to, curvature = 0.35) {
-  const p1 = nodePos(NODES[from].angle);
-  const p2 = nodePos(NODES[to].angle);
+function bezierMid(from, to, curvature = 0.35, isMobile = false) {
+  const R = isMobile ? 110 : 210;
+  const CX = isMobile ? 187.5 : 480;
+  const CY = isMobile ? 300 : 360;
+
+  const p1 = {
+    x: CX + R * Math.cos(toRad(NODES[from].angle)),
+    y: CY + R * Math.sin(toRad(NODES[from].angle)),
+  };
+  const p2 = {
+    x: CX + R * Math.cos(toRad(NODES[to].angle)),
+    y: CY + R * Math.sin(toRad(NODES[to].angle)),
+  };
   const mx = (p1.x + p2.x) / 2;
   const my = (p1.y + p2.y) / 2;
   const dx = p2.x - p1.x;
@@ -171,6 +181,15 @@ export default function App() {
 
   const NODE_W = isMobile ? 120 : 150;
   const NODE_H = isMobile ? 56 : 68;
+
+  const R = isMobile ? 110 : 210;
+  const CX = isMobile ? 187.5 : 480;
+  const CY = isMobile ? 300 : 360;
+
+  const nodePos = (angle) => ({
+    x: CX + R * Math.cos(toRad(angle)),
+    y: CY + R * Math.sin(toRad(angle)),
+  });
 
   return (
     <div
@@ -356,12 +375,12 @@ export default function App() {
           {/* Curved arrows between nodes */}
           {EDGES.map((edge, i) => {
             const isPulsing = pulseEdge === i;
-            const mid = bezierMid(edge.from, edge.to);
+            const mid = bezierMid(edge.from, edge.to, 0.35, isMobile);
             return (
               <g key={`edge-${i}`}>
                 {/* Base path */}
                 <path
-                  d={arcPath(edge.from, edge.to)}
+                  d={arcPath(edge.from, edge.to, 0.35, isMobile)}
                   fill="none"
                   stroke={isPulsing ? TEAL : "#1e4a46"}
                   strokeWidth={isPulsing ? 2 : 1.5}
@@ -376,7 +395,7 @@ export default function App() {
                     <animateMotion
                       dur="1.2s"
                       repeatCount="1"
-                      path={arcPath(edge.from, edge.to)}
+                      path={arcPath(edge.from, edge.to, 0.35, isMobile)}
                     />
                   </circle>
                 )}
