@@ -416,18 +416,18 @@ export default function App() {
           {/* Center node */}
           <g style={{ cursor: "default" }} filter="url(#glowCenter)">
             <rect
-              x={CX - (isMobile ? 56 : 76)} y={CY - (isMobile ? 32 : 44)}
-              width={isMobile ? 112 : 152} height={isMobile ? 64 : 88}
-              rx={isMobile ? 6 : 8}
+              x={CX - (isMobile ? 48 : 76)} y={CY - (isMobile ? 28 : 44)}
+              width={isMobile ? 96 : 152} height={isMobile ? 56 : 88}
+              rx={isMobile ? 5 : 8}
               fill="url(#centerGrad)"
               stroke={TEAL}
               strokeWidth={isMobile ? 1 : 1.5}
             />
             <text
-              x={CX} y={CY - (isMobile ? 8 : 12)}
+              x={CX} y={CY - (isMobile ? 7 : 12)}
               textAnchor="middle"
               fill={WHITE}
-              fontSize={isMobile ? 14 : 18}
+              fontSize={isMobile ? 12 : 18}
               fontWeight={700}
               fontFamily="'JetBrains Mono', monospace"
               letterSpacing="1"
@@ -435,10 +435,10 @@ export default function App() {
               CeDeFi
             </text>
             <text
-              x={CX} y={CY + (isMobile ? 8 : 10)}
+              x={CX} y={CY + (isMobile ? 7 : 10)}
               textAnchor="middle"
               fill={WHITE}
-              fontSize={isMobile ? 14 : 18}
+              fontSize={isMobile ? 12 : 18}
               fontWeight={700}
               fontFamily="'JetBrains Mono', monospace"
               letterSpacing="1"
@@ -446,12 +446,12 @@ export default function App() {
               FLYWHEEL
             </text>
             <text
-              x={CX} y={CY + (isMobile ? 22 : 30)}
+              x={CX} y={CY + (isMobile ? 19 : 30)}
               textAnchor="middle"
               fill="#ffffff88"
-              fontSize={isMobile ? 7 : 9}
+              fontSize={isMobile ? 6 : 9}
               fontFamily="'JetBrains Mono', monospace"
-              letterSpacing={isMobile ? 1.5 : 2}
+              letterSpacing={isMobile ? 1 : 2}
             >
               ♾ SELF-REINFORCING
             </text>
@@ -564,14 +564,16 @@ export default function App() {
           style={{
             position: "fixed",
             bottom: isMobile ? 20 : 30,
-            left: "50%",
-            transform: "translateX(-50%)",
+            left: isMobile ? 0 : "50%",
+            right: isMobile ? 0 : "auto",
+            margin: isMobile ? "0 10px" : "0",
+            transform: isMobile ? "none" : "translateX(-50%)",
             background: "#0d0d0d",
             border: `1px solid ${TEAL}`,
             borderTop: `3px solid ${TEAL}`,
             padding: isMobile ? "12px 20px" : "16px 28px",
-            maxWidth: isMobile ? "95vw" : 480,
-            width: "90vw",
+            maxWidth: isMobile ? "calc(100vw - 20px)" : 480,
+            width: isMobile ? "auto" : "90vw",
             zIndex: 10,
             boxSizing: "border-box",
           }}
